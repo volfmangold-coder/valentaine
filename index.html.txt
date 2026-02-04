@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef2; /* Нежно-розовый фон */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Твоё фото */
+        #photo {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2rem;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            position: relative;
+            height: 100px;
+            width: 100%;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #4caf50;
+            color: white;
+            margin-right: 20px;
+        }
+
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+            position: absolute; /* Важно для перемещения */
+        }
+
+        /* Эффект конфетти из сердечек */
+        .heart {
+            position: fixed;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="my-photo.jpg" alt="Love" id="photo">
+        
+        <h1 id="question">Станешь моей валентинкой? ❤️</h1>
+
+        <div class="buttons">
+            <button id="yesBtn">Да!</button>
+            <button id="noBtn">Нет</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.querySelector('#noBtn');
+        const yesBtn = document.querySelector('#yesBtn');
+        const question = document.querySelector('#question');
+        const photo = document.querySelector('#photo');
+
+        // Кнопка "Нет" убегает
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        // Кнопка "Да" - магия
+        yesBtn.addEventListener('click', () => {
+            question.innerHTML = "Ура! Я так и знал! 🥰";
+            // Тут можно сменить фото на еще более милое
+            photo.src = "happy-photo.jpg"; 
+            
+            // Запускаем сердечки
+            setInterval(createHeart, 100);
+            
+            noBtn.style.display = 'none';
+            yesBtn.style.transform = 'scale(1.5)';
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+    </script>
+</body>
+</html>
