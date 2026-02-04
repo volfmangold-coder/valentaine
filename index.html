@@ -26,9 +26,13 @@
         img {
             max-width: 300px;
             width: 100%;
+            height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         h1 {
@@ -54,25 +58,14 @@
             transition: all 0.2s ease;
         }
 
-        #yesBtn {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        #noBtn {
-            background-color: #f44336;
-            color: white;
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        #yesBtn { background-color: #4CAF50; color: white; }
+        #noBtn { background-color: #f44336; color: white; }
+        .hidden { display: none; }
+        
         .heart {
             position: fixed;
             top: -10vh;
             font-size: 2rem;
-            user-select: none;
             z-index: 1000;
             pointer-events: none;
         }
@@ -81,7 +74,7 @@
 <body>
 
     <div id="quiz-screen" class="container">
-        <img src="pupsi.jpg" alt="Фото">
+        <img src="./pupsi.jpg" alt="Фото 1">
         <h1>Будешь моей валентинкой? ❤️</h1>
         <div class="buttons">
             <button id="yesBtn">Да</button>
@@ -90,23 +83,15 @@
     </div>
 
     <div id="success-screen" class="container hidden">
-        <img src="123.jpg" alt="Мы вместе">
+        <img src="./123.jpg" alt="Фото 2">
         <h1>УРААА!!! Я тебя люблю! 😘✨</h1>
     </div>
 
     <script>
         const phrases = [
-            "Ты уверена?",
-            "Прям точно-точно?",
-            "Подумай еще разок...",
-            "Я подарю тебе вкусняшку!",
-            "Ну пожалуйста :(",
-            "Может всё-таки да?",
-            "Я сейчас расплачусь...",
-            "Всё, я умираю",
-            "Это пишет мой призрак",
-            "Жми кнопку «Да»!",
-            "Смилуйся ❤️"
+            "Ты уверена?", "Прям точно?", "Подумай еще...", "Я подарю вкусняшку!",
+            "Ну пожалуйста :(", "Я сейчас расплачусь", "Всё, я умираю",
+            "Это пишет мой призрак", "Жми кнопку Да!", "Смилуйся ❤️"
         ];
 
         const yesBtn = document.getElementById('yesBtn');
@@ -127,7 +112,6 @@
             const newSize = currentSize + 15; 
             yesBtn.style.fontSize = newSize + "px";
             yesBtn.style.padding = (newSize / 1.5) + "px " + (newSize * 1.2) + "px";
-            
             noCount++;
         });
 
@@ -144,17 +128,13 @@
                     heart.className = 'heart';
                     heart.innerHTML = '❤️';
                     heart.style.left = Math.random() * 100 + 'vw';
-                    
                     document.body.appendChild(heart);
                     
                     const duration = Math.random() * 3000 + 2000;
                     heart.animate([
                         { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
                         { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                    ], {
-                        duration: duration,
-                        easing: 'linear'
-                    });
+                    ], { duration: duration, easing: 'linear' });
 
                     setTimeout(() => heart.remove(), duration);
                 }, i * 150);
@@ -163,7 +143,6 @@
     </script>
 </body>
 </html>
-
 
 
 
