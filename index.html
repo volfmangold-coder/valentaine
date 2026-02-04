@@ -12,125 +12,136 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffeef2; /* Нежно-розовый фон */
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff5f7;
+            text-align: center;
             overflow: hidden;
         }
 
         .container {
-            text-align: center;
+            max-width: 90%;
+            transition: all 0.3s ease;
         }
 
-        /* Твоё фото */
-        #photo {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
+        img {
+            max-width: 300px;
             border-radius: 20px;
-            border: 5px solid white;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-            transition: transform 0.3s;
         }
 
         h1 {
-            color: #d63384;
-            font-size: 2rem;
+            color: #d32f2f;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
         }
 
         .buttons {
-            margin-top: 30px;
-            position: relative;
-            height: 100px;
-            width: 100%;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            font-weight: bold;
+            transition: all 0.2s ease;
         }
 
         #yesBtn {
-            background-color: #4caf50;
+            background-color: #4CAF50;
             color: white;
-            margin-right: 20px;
+            z-index: 999; /* Чтобы кнопка "Да" всегда была сверху */
         }
 
         #noBtn {
             background-color: #f44336;
             color: white;
-            position: absolute; /* Важно для перемещения */
         }
 
-        /* Эффект конфетти из сердечек */
-        .heart {
-            position: fixed;
-            color: #ff4d6d;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear forwards;
+        .hidden {
+            display: none;
         }
 
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
+        #success-screen h1 {
+            font-size: 2.2rem;
+            color: #c2185b;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="together.jpg" alt="Love" id="photo">
+    <div id="quiz-screen" class="container">
+        <img id="main-photo" src="pupsi.jpg" alt="Наше фото">
         
-        <h1 id="question">Станешь моей валентинкой? ❤️</h1>
-
+        <h1>Будешь моей валентинкой? ❤️</h1>
+        
         <div class="buttons">
-            <button id="yesBtn">Да!</button>
+            <button id="yesBtn">Да</button>
             <button id="noBtn">Нет</button>
         </div>
     </div>
 
+    <div id="success-screen" class="container hidden">
+        <img src="photo2.jpg" alt="Мы вместе">
+        <h1>УРААА!!! Я тебя люблю! 😘✨</h1>
+    </div>
+
     <script>
-        const noBtn = document.querySelector('#noBtn');
-        const yesBtn = document.querySelector('#yesBtn');
-        const question = document.querySelector('#question');
-        const photo = document.querySelector('#photo');
+        const phrases = [
+            "Ты уверена?",
+            "А если я очень попрошу?",
+            "Пожалуйста-пожалуйста",
+            "Я подарю тебе вкусняшку",
+            "Ну разочек...",
+            "Ну позязя",
+            "Я сейчас расплачусь :(",
+            "Я умираю без тебя...",
+            "Всё, я умер",
+            "Ты говоришь с моим призраком",
+            "Ну хватит нажимать «Нет»!",
+            "Просто нажми «Да»",
+            "Моё сердце разбито...",
+            "Смилуйся! :("
+        ];
 
-        // Кнопка "Нет" убегает
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const quizScreen = document.getElementById('quiz-screen');
+        const successScreen = document.getElementById('success-screen');
+        
+        let noCount = 0;
+
+        noBtn.addEventListener('click', () => {
+            // 1. Меняем текст на кнопке "Нет"
+            if (noCount < phrases.length) {
+                noBtn.innerText = phrases[noCount];
+            } else {
+                noBtn.innerText = "Без шансов, жми «Да»!";
+            }
+            
+            // 2. Увеличиваем кнопку "Да"
+            // С каждым кликом она становится всё больше
+            const currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
+            const newSize = currentSize + 15; // Увеличиваем размер шрифта
+            yesBtn.style.fontSize = newSize + "px";
+            
+            // Увеличиваем отступы пропорционально
+            yesBtn.style.padding = (newSize / 1.5) + "px " + (newSize * 1.2) + "px";
+            
+            noCount++;
         });
 
-        // Кнопка "Да" - магия
         yesBtn.addEventListener('click', () => {
-            question.innerHTML = "Ура! Я так и знал! 🥰";
-            // Тут можно сменить фото на еще более милое
-            photo.src = "pupsi.jpg"; 
-            
-            // Запускаем сердечки
-            setInterval(createHeart, 100);
-            
-            noBtn.style.display = 'none';
-            yesBtn.style.transform = 'scale(1.5)';
+            quizScreen.classList.add('hidden');
+            successScreen.classList.remove('hidden');
         });
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
     </script>
 </body>
 </html>
-
