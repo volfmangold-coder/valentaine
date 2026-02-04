@@ -68,7 +68,6 @@
             display: none;
         }
 
-        /* Стиль для падающих сердечек */
         .heart {
             position: fixed;
             top: -10vh;
@@ -104,12 +103,9 @@
             "Ну пожалуйста :(",
             "Может всё-таки да?",
             "Я сейчас расплачусь...",
-            "Сердце замирает...",
             "Всё, я умираю",
             "Это пишет мой призрак",
             "Жми кнопку «Да»!",
-            "Не мучай меня :(",
-            "Просто нажми его!",
             "Смилуйся ❤️"
         ];
 
@@ -120,7 +116,6 @@
         
         let noCount = 0;
 
-        // Логика кнопки "Нет"
         noBtn.addEventListener('click', () => {
             if (noCount < phrases.length) {
                 noBtn.innerText = phrases[noCount];
@@ -128,7 +123,6 @@
                 noBtn.innerText = "Без шансов!";
             }
             
-            // Увеличиваем кнопку "Да"
             const currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
             const newSize = currentSize + 15; 
             yesBtn.style.fontSize = newSize + "px";
@@ -137,14 +131,12 @@
             noCount++;
         });
 
-        // Логика кнопки "Да"
         yesBtn.addEventListener('click', () => {
             quizScreen.classList.add('hidden');
             successScreen.classList.remove('hidden');
             startHearts();
         });
 
-        // Функция создания сердечек
         function startHearts() {
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
@@ -152,11 +144,9 @@
                     heart.className = 'heart';
                     heart.innerHTML = '❤️';
                     heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
                     
                     document.body.appendChild(heart);
                     
-                    // Анимация падения через JS
                     const duration = Math.random() * 3000 + 2000;
                     heart.animate([
                         { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
@@ -173,6 +163,7 @@
     </script>
 </body>
 </html>
+
 
 
 
